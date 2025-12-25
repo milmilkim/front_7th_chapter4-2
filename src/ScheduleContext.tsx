@@ -1,4 +1,5 @@
-import React, { createContext, PropsWithChildren, useContext, useState } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import React, { createContext, PropsWithChildren, useContext, useMemo, useState } from "react";
 import { Schedule } from "./types.ts";
 import dummyScheduleMap from "./dummyScheduleMap.ts";
 
@@ -20,8 +21,10 @@ export const useScheduleContext = () => {
 export const ScheduleProvider = ({ children }: PropsWithChildren) => {
   const [schedulesMap, setSchedulesMap] = useState<Record<string, Schedule[]>>(dummyScheduleMap);
 
+  const value = useMemo(() => ({ schedulesMap, setSchedulesMap }), [schedulesMap]);
+
   return (
-    <ScheduleContext.Provider value={{ schedulesMap, setSchedulesMap }}>
+    <ScheduleContext.Provider value={value}>
       {children}
     </ScheduleContext.Provider>
   );
